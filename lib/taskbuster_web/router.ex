@@ -20,6 +20,7 @@ defmodule TaskbusterWeb.Router do
 
     # accounts
     resources "/users", UserController
+    resources "/login", LoginController, only: [:create, :delete, :new], singleton: true
   end
 
   # Other scopes may use custom stacks.

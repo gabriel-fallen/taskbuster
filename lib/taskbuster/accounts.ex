@@ -101,4 +101,21 @@ defmodule Taskbuster.Accounts do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+  def get_by_username(username) when is_nil(username) do
+    nil
+  end
+  def get_by_username(username) do
+    Repo.get_by(User, username: username)
+  end
+
+  def authenticate_by_name_password(username, password) do
+    user = get_by_username(username)
+    pwd_hash = :crypto.hash(:sha, password)
+    if pwd_hash == user.password do
+      {:ok, user}
+    else
+      {:error, "Invalid username or password"}
+    end
+  end
 end

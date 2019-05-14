@@ -2,11 +2,15 @@ defmodule Taskbuster.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Taskbuster.Tasks.Task
+
   schema "users" do
     field :email, :string
     field :name, :string
     field :password, :binary
     field :username, :string
+    has_many :tasks, Task, foreign_key: :owner_id
+    has_many :assigns, Task, foreign_key: :assignee_id
 
     timestamps()
   end

@@ -3,6 +3,7 @@ defmodule Taskbuster.Accounts.User do
   import Ecto.Changeset
 
   alias Taskbuster.Tasks.Task
+  alias Taskbuster.Comments.Comment
 
   schema "users" do
     field :email, :string
@@ -11,6 +12,7 @@ defmodule Taskbuster.Accounts.User do
     field :username, :string
     has_many :tasks, Task, foreign_key: :owner_id
     has_many :assigns, Task, foreign_key: :assignee_id
+    has_many :comments, Comment, foreign_key: :author_id
 
     timestamps()
   end

@@ -27,7 +27,10 @@ defmodule TaskbusterWeb.Router do
     pipe_through [:browser, :authenticate_user]
 
     # tasks
-    resources "/tasks", TaskController
+    resources "/tasks", TaskController do
+      # comments
+      resources "/comments", CommentController
+    end
   end
 
   # Other scopes may use custom stacks.

@@ -3,12 +3,14 @@ defmodule Taskbuster.Tasks.Task do
   import Ecto.Changeset
 
   alias Taskbuster.Accounts.User
+  alias Taskbuster.Comments.Comment
 
   schema "tasks" do
     field :description, :string
     field :title, :string
     belongs_to :owner, User
     belongs_to :assignee, User
+    has_many :comments, Comment
 
     timestamps()
   end

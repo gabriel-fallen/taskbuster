@@ -44,6 +44,7 @@ defmodule Taskbuster.Tasks do
     |> Repo.get!(id)
     |> Repo.preload(:owner)
     |> Repo.preload(:assignee)
+    |> Repo.preload(comments: [:author])
   end
 
   @doc """

@@ -22,6 +22,7 @@ defmodule Taskbuster.Accounts do
     |> Repo.all()
     |> Repo.preload(:tasks)
     |> Repo.preload(:assigns)
+    |> Repo.preload(:comments)
   end
 
   @doc """
@@ -43,6 +44,7 @@ defmodule Taskbuster.Accounts do
     |> Repo.get!(id)
     |> Repo.preload(:tasks)
     |> Repo.preload(:assigns)
+    |> Repo.preload(:comments)
   end
 
   @doc """

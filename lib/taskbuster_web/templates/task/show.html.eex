@@ -14,5 +14,28 @@
 
 </ul>
 
+<h3>New comment</h3>
+
+<%= form_for @conn, Routes.task_comment_path(@conn, :create, @task), [method: :post, as: :comment], fn f -> %>
+  <%= label f, :body %>
+  <%= textarea f, :body %>
+
+  <div>
+    <%= submit "Submit" %>
+  </div>
+<% end %>
+
+<%= for comment <- @task.comments do %>
+  <div>
+    <p><strong>@<%= comment.author.username %></strong>: <%= comment.body %></p>
+
+    <p>
+      <%= link "Show", to: Routes.task_comment_path(@conn, :show, @task, comment) %> &nbsp;
+      <%= link "Edit", to: Routes.task_comment_path(@conn, :edit, @task, comment) %> &nbsp;
+      <%= link "Delete", to: Routes.task_comment_path(@conn, :delete, @task, comment), method: :delete, data: [confirm: "Are you sure?"] %>
+    </p>
+  </div>
+<% end %>
+
 <span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
 <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>

@@ -25,6 +25,7 @@
   </div>
 <% end %>
 
+<div id="comments">
 <%= for comment <- @task.comments do %>
   <div>
     <p><strong>@<%= comment.author.username %></strong>: <%= comment.body %></p>
@@ -36,6 +37,22 @@
     </p>
   </div>
 <% end %>
+</div>
 
 <span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
 <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>
+
+<script type="text/javascript">
+let channel = socket.channel("task:<%= @task.id %>", {})
+let comments = document.querySelector("#comments")
+
+channel.on("new_comment", payload => {
+  let comment = document.createElement("div")
+  comment.innerHTML = `<p><strong>@${payload.username}</strong>: ${payload.body}</p>`
+  comments.appendChild(comment)
+})
+
+channel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+</script>

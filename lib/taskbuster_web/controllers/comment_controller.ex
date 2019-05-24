@@ -16,10 +16,11 @@ defmodule TaskbusterWeb.CommentController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"task_id" => task_id, "comment" => comment_params}) do
-    {task_id, ""} = Integer.parse(task_id)
+  def create(conn, %{"task_id" => task_id_str, "comment" => comment_params}) do
+    {task_id, ""} = Integer.parse(task_id_str)
     case Comments.create_comment(conn.assigns.current_user, task_id, comment_params) do
-      {:ok, _} ->
+      {:ok, comment} ->
+        TaskbusterWeb.Endpoint.broadcast!("task:" <> task_id_str, "new_comment", %{username: comment.author.username, body: comment.body})
         conn
         |> put_flash(:info, "Comment created successfully.")
         |> redirect(to: Routes.task_path(conn, :show, task_id))

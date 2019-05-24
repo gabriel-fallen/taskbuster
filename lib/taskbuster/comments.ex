@@ -59,11 +59,15 @@ defmodule Taskbuster.Comments do
 
   """
   def create_comment(%User{} = author, task_id, attrs \\ %{}) do
-    %Comment{}
-    |> Comment.changeset(attrs)
-    |> Ecto.Changeset.put_change(:author_id, author.id)
-    |> Ecto.Changeset.put_change(:task_id, task_id)
-    |> Repo.insert()
+    res = %Comment{}
+          |> Comment.changeset(attrs)
+          |> Ecto.Changeset.put_change(:author_id, author.id)
+          |> Ecto.Changeset.put_change(:task_id, task_id)
+          |> Repo.insert()
+    case res do
+      {:ok, comment} -> {:ok, get_comment!(comment.id)}
+      _ -> res
+    end
   end
 
   @doc """

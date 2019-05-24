@@ -3,6 +3,7 @@ defmodule TaskbusterWeb.UserSocket do
 
   ## Channels
   # channel "room:*", TaskbusterWeb.RoomChannel
+  channel "task:*", TaskbusterWeb.TaskChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
